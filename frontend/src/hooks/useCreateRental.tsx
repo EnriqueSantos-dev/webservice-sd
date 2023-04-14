@@ -21,7 +21,7 @@ export function useCreateRental(url: string) {
         const error = await response.json();
 
         if ("disponibilidade" in error && !error.disponibilidade) {
-          throw new Error("Carro indisponível");
+          throw new Error("O carro já está alugado no período selecionado");
         }
 
         throw new Error("Erro ao criar locação");
@@ -29,6 +29,7 @@ export function useCreateRental(url: string) {
 
       const rental = (await response.json()) as CreateRentalResponse;
       setData(rental);
+      setError(null);
     } catch (err: any) {
       setError(err.message);
     } finally {
