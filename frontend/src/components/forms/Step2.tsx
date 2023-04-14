@@ -53,15 +53,7 @@ export function Step2() {
   };
 
   useEffect(() => {
-    if (models.length > 0 && !loading && !selectedModel) {
-      const model = models[Math.floor(Math.random() * models.length)]?.model;
-      setValue("model", model);
-      setSelectedModel(model);
-    }
-  }, [models, loading]);
-
-  useEffect(() => {
-    if (createRentalError && !isLoadingCreateRental) {
+    if (createRentalError) {
       toast.error(createRentalError, TOAST_OPTIONS);
       return;
     }
@@ -90,27 +82,25 @@ export function Step2() {
             {models.map(({ model, value: price }) => (
               <Controller
                 key={model}
-                control={control}
                 name="model"
-                render={({ field: { onChange, value } }) => {
-                  return (
-                    <InputCarModel
-                      key={model}
-                      id={model}
-                      type="radio"
-                      value={value}
-                      price={price}
-                      model={model}
-                      selectedModel={selectedModel}
-                      handleSelect={handleSelectModel}
-                      onChange={() => {
-                        onChange(model);
-                        handleSelectModel(model);
-                      }}
-                      hidden
-                    />
-                  );
-                }}
+                control={control}
+                render={({ field: { onChange, ...rest } }) => (
+                  <InputCarModel
+                    id={model}
+                    type="radio"
+                    handleSelect={handleSelectModel}
+                    model={model}
+                    price={price}
+                    selectedModel={selectedModel}
+                    {...rest}
+                    value={model}
+                    onChange={(e) => {
+                      handleSelectModel(model);
+                      onChange(model);
+                    }}
+                    hidden
+                  />
+                )}
               />
             ))}
 
