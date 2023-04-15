@@ -14,8 +14,10 @@ import { Step2 } from "./components/forms/Step2";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<App />} path="/">
-      <Route path="/step1" element={<Step1 />} index />
+      <Route element={<Step1 />} index />
+			<Route path="/step1" element={<Step1 />}/>
       <Route path="/step2" element={<Step2 />} />
+			<Route path="*" element={<div className="text-red-500 text-4xl text-center">route not found</div>} />
     </Route>
   )
 );
